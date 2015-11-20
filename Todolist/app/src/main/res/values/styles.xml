@@ -1,8 +1,21 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+<!-- Base application theme. -->
+    <style name="ToDoListAppTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/ToDoListActionBarTheme</item>
+        <item name="actionBarStyle">@style/ToDoListActionBarTheme</item>
+    </style>
+
+    <style name="ToDoListActionBarTheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@color/action_bar_tint</item>
+        <item name="background">@color/action_bar_tint</item>
+        <item name="android:titleTextStyle">@style/TextStyle</item>
+        <item name="titleTextStyle">@style/TextStyle</item>
+    </style>
+
+    <style name="TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/actionbar_title_text_size</item>
     </style>
 
 </resources>
