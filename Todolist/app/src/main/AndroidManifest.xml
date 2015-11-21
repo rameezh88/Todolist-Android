@@ -9,7 +9,6 @@
         <activity
             android:name=".activities.AllItemsActivity"
             android:screenOrientation="portrait"
-            android:label="@string/all_items"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

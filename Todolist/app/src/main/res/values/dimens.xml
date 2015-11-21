@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="actionbar_title_text_size">19sp</dimen>
+    <dimen name="default_message_text_size">15sp</dimen>
+    <dimen name="default_message_padding">50dp</dimen>
 </resources>
