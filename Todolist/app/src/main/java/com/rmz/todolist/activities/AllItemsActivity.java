@@ -1,5 +1,7 @@
 package com.rmz.todolist.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.rmz.todolist.R;
 import com.rmz.todolist.models.TodoList;
+import com.rmz.todolist.services.TodoListManager;
 
 import java.util.ArrayList;
 
@@ -23,12 +26,14 @@ public class AllItemsActivity extends AppCompatActivity {
     private TextView emptyMessageView;
     private ListView allItemsList;
     private ArrayList<TodoList> allLists = new ArrayList<>();
+    private TodoListManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_items);
         setTitle(getResources().getString(R.string.all_items));
+        manager = TodoListManager.getInstance(this);
         initViews();
     }
 
@@ -59,6 +64,14 @@ public class AllItemsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_new_list) {
+            openNewListActivity();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openNewListActivity () {
+        Intent newListIntent = new Intent(this, TodoListActivity.class);
+        startActivity(newListIntent);
     }
 }
