@@ -1,6 +1,7 @@
 package com.rmz.todolist.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
@@ -16,6 +17,19 @@ import java.sql.SQLException;
  */
 public class DBUtility {
     public static String BUNDLED_DB_NAME = "todolist.sqlite";
+    private static String TODO_LIST_TABLE = "todo_lists";
+    private static String LIST_ITEMS_TABLE = "list_items";
+
+    public static String KEY_ID = "id";
+    public static String KEY_LIST_NAME = "list_name";
+    public static String KEY_MODIFIED = "modified";
+    public static String KEY_TODO_LIST_ID = "todo_list_id";
+    public static String KEY_TEXT = "text";
+    public static String KEY_CHECKED = "checked";
+    public static String KEY_CREATED = "created";
+//    private static String[] TODO_LIST_TABLE_COLUMNS = {KEY_ID,KEY_LIST_NAME,KEY_MODIFIED};
+//    private static String[] LIST_ITEMS_TABLE_COLUMNS = {KEY_ID,KEY_TODO_LIST_ID,KEY_TEXT,KEY_CHECKED,KEY_CREATED};
+
     static int DB_VERSION = 1;
     private SQLiteDatabase myDataBase;
     private Context myContext = null;
@@ -35,25 +49,12 @@ public class DBUtility {
     }
 
     private class DbHelper extends SQLiteAssetHelper {
-
-        /**
-         * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
-         * @param context
-         */
         DbHelper(Context context, String dbName) {
             super(context, dbName, null, DB_VERSION);
         }
     }
 
-
     private DbHelper mDbHelper;
-
-    /**
-     * Constructor - takes the context to allow the database to be
-     * opened/created
-     *
-     * @param ctx the Context within which to work
-     */
 
     public DBUtility(Context ctx) {
         init(ctx, null, BUNDLED_DB_NAME);
@@ -68,13 +69,6 @@ public class DBUtility {
         mDbHelper = new DbHelper(myContext, dbName);
     }
 
-    /**
-     * Checks if the database is present. This only checks the existence of the file.
-     * To validate the data sanity, a checksum should be done on the file.
-     *
-     * @param dbPath
-     * @return
-     */
     public boolean checkDataBase(String dbPath) {
         File db = new File(dbPath);
         if(db.exists()){
@@ -107,7 +101,7 @@ public class DBUtility {
                 try {
                     getDatabaseOpenListener().openingDatabaseFromAssets();
                 } catch (Exception e) {
-//                    e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
 
@@ -136,5 +130,29 @@ public class DBUtility {
             myDataBase.close();
         }
         mDbHelper.close();
+    }
+
+    public Cursor getAllTodoLists () {
+        try {
+            return myDataBase.rawQuery("SELECT * FROM "+TODO_LIST_TABLE, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public Cursor getAllItemsForListId (int listId) {
+        try {
+            return myDataBase.rawQuery("SELECT * FROM "+LIST_ITEMS_TABLE+" WHERE "+KEY_TODO_LIST_ID+" = "+listId, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void updateToDoList () {
+
     }
 }

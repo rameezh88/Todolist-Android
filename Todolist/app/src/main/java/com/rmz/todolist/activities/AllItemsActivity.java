@@ -1,6 +1,5 @@
 package com.rmz.todolist.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.rmz.todolist.R;
 import com.rmz.todolist.models.TodoList;
-import com.rmz.todolist.services.TodoListManager;
+import com.rmz.todolist.utils.TodoListDataService;
 
 import java.util.ArrayList;
 
@@ -26,14 +25,14 @@ public class AllItemsActivity extends AppCompatActivity {
     private TextView emptyMessageView;
     private ListView allItemsList;
     private ArrayList<TodoList> allLists = new ArrayList<>();
-    private TodoListManager manager;
+    private TodoListDataService manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_items);
         setTitle(getResources().getString(R.string.all_items));
-        manager = TodoListManager.getInstance(this);
+        manager = TodoListDataService.getInstance(this);
         initViews();
     }
 
