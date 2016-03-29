@@ -11,6 +11,8 @@ public interface IAllItemsInteractor {
     interface AllItemsListener {
         void onAllItemsLoaded(ArrayList<TodoList> allItems);
         void onNoItemsFound();
+        void onTryingDatabaseOpen();
+        void onDatabaseOpened();
     }
-    void loadAllItems(AllItemsListener allItemsListener);
+    void loadAllItems();
 }

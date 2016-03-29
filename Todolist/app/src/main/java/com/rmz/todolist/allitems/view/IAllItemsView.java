@@ -11,4 +11,6 @@ public interface IAllItemsView {
     void showListEmpty();
     void showAllItems(ArrayList<TodoList> allLists);
     void openNewListActivity();
+    void showLoader();
+    void hideLoader();
 }

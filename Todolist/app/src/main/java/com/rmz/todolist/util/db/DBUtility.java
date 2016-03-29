@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 import com.rmz.todolist.allitems.model.TodoList;
@@ -27,7 +26,7 @@ public class DBUtility implements IDBUtility {
     public static String KEY_LIST_NAME = "list_name";
     public static String KEY_MODIFIED = "modified";
     public static String KEY_TODO_LIST_ID = "todo_list_id";
-    public static String KEY_TEXT = "text";
+    public static String KEY_ITEM_TEXT = "text";
     public static String KEY_CHECKED = "checked";
     public static String KEY_CREATED = "created";
 //    private static String[] TODO_LIST_TABLE_COLUMNS = {KEY_ID,KEY_LIST_NAME,KEY_MODIFIED};
@@ -49,6 +48,12 @@ public class DBUtility implements IDBUtility {
     private class DbHelper extends SQLiteAssetHelper {
         DbHelper(Context context, String dbName) {
             super(context, dbName, null, DB_VERSION);
+        }
+
+        @Override
+        public void onOpen(SQLiteDatabase db) {
+            super.onOpen(db);
+            notifyDatabaseOpen();
         }
     }
 
@@ -111,24 +116,26 @@ public class DBUtility implements IDBUtility {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                try {
-                    getDatabaseOpenListener().databaseIsOpen();
-                    Log.d(getClass().getSimpleName(), "Database - "+myDataBase.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         };
 
         openDatabase.execute();
     }
 
-
     @Override
     public void openDatabase() {
         try {
             openDataBase();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void notifyDatabaseOpen() {
+        try {
+            getDatabaseOpenListener().databaseIsOpen();
+//            Log.d(getClass().getSimpleName(), "Database - " + myDataBase.toString());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

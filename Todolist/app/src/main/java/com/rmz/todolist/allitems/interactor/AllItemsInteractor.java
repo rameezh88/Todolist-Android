@@ -12,18 +12,28 @@ import java.util.ArrayList;
  */
 public class AllItemsInteractor implements IAllItemsInteractor {
     private TodoListDataService manager;
+    private AllItemsListener allItemsListener;
 
-    public AllItemsInteractor(Context context) {
+    public AllItemsInteractor() {
+    }
+
+    public AllItemsInteractor(Context context, AllItemsListener allItemsListener) {
+        this.allItemsListener = allItemsListener;
         manager = TodoListDataService.getInstance(context);
+
     }
 
     @Override
-    public void loadAllItems(AllItemsListener allItemsListener) {
-        ArrayList<TodoList> allLists = manager.getAllTodoLists();
-        if (allLists == null || allLists.isEmpty()) {
-            allItemsListener.onNoItemsFound();
-        } else {
-            allItemsListener.onAllItemsLoaded(allLists);
+    public void loadAllItems() {
+        try {
+            ArrayList<TodoList> allLists = manager.getAllTodoLists();
+            if (allLists == null || allLists.isEmpty()) {
+                allItemsListener.onNoItemsFound();
+            } else {
+                allItemsListener.onAllItemsLoaded(allLists);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

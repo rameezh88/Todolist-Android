@@ -1,6 +1,7 @@
 package com.rmz.todolist.allitems.view;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_items);
         presenter = new AllItemsPresenter(this, this);
+        registerReceiver(presenter, new IntentFilter(getString(R.string.database_being_opened)));
+        registerReceiver(presenter, new IntentFilter(getString(R.string.database_opened)));
         setTitle(getResources().getString(R.string.all_items));
         initViews();
     }
@@ -78,5 +81,15 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
     public void openNewListActivity() {
         Intent newListIntent = new Intent(this, TodoListActivity.class);
         startActivity(newListIntent);
+    }
+
+    @Override
+    public void showLoader() {
+
+    }
+
+    @Override
+    public void hideLoader() {
+
     }
 }
