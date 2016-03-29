@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 import com.rmz.todolist.allitems.model.TodoList;
@@ -112,6 +113,7 @@ public class DBUtility implements IDBUtility {
                 super.onPostExecute(aVoid);
                 try {
                     getDatabaseOpenListener().databaseIsOpen();
+                    Log.d(getClass().getSimpleName(), "Database - "+myDataBase.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -149,7 +151,6 @@ public class DBUtility implements IDBUtility {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -160,37 +161,51 @@ public class DBUtility implements IDBUtility {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     @Override
     public void updateList(TodoList list) {
-
+        insertList(list);
     }
 
     @Override
     public void insertList(TodoList list) {
-
-    }
-
-    @Override
-    public void updateTodoListItem(TodoListItem todoListItem) {
-
-    }
-
-    @Override
-    public void insertTodoListItems(TodoListItem todoListItem) {
-
-    }
-
-    @Override
-    public void deleteTodoListItemWithId(String todoListItemId) {
-
+        String insert = String.format("INSERT OR REPLACE INTO %s VALUES ('%s','%s','%s')", TODO_LIST_TABLE, list.getListId(), list.getListName(), list.getLastModified());
+        executeQuery(insert);
     }
 
     @Override
     public void deleteTodoListWithId(String todoListId) {
+        delete(todoListId, TODO_LIST_TABLE);
+    }
 
+    @Override
+    public void updateTodoListItem(TodoListItem todoListItem) {
+        insertTodoListItems(todoListItem);
+    }
+
+    @Override
+    public void insertTodoListItems(TodoListItem todoListItem) {
+        String insert = String.format("INSERT OR REPLACE INTO %s VALUES ('%s', '%s', '%s', %d, '%s')", LIST_ITEMS_TABLE, todoListItem.getItemId(), todoListItem.getListId(), todoListItem.getItemText(), todoListItem.isChecked() ? 1:0, todoListItem.getCreated());
+        executeQuery(insert);
+    }
+
+    @Override
+    public void deleteTodoListItemWithId(String todoListItemId) {
+        delete(todoListItemId, LIST_ITEMS_TABLE);
+    }
+
+    private void delete(String id, String table) {
+        String delete = String.format("DELETE FROM '%s' WHERE %s='%s'", table, KEY_ID, id);
+        executeQuery(delete);
+    }
+
+    private synchronized void executeQuery(String query) {
+        try {
+            myDataBase.execSQL(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

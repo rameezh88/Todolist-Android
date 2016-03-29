@@ -20,8 +20,8 @@ public interface IDBUtility {
     Cursor getTodoListForListId(String listId);
     void updateList(TodoList list);
     void insertList(TodoList list);
+    void deleteTodoListWithId(String todoListId);
     void updateTodoListItem(TodoListItem todoListItem);
     void insertTodoListItems(TodoListItem todoListItem);
     void deleteTodoListItemWithId(String todoListItemId);
-    void deleteTodoListWithId(String todoListId);
 }
