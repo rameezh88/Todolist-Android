@@ -1,4 +1,4 @@
-package com.rmz.todolist.utils;
+package com.rmz.todolist.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.rmz.todolist.activities;
+package com.rmz.todolist.todolist.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.rmz.todolist.R;
-
-import java.util.List;
 
 /**
  * Created by rameezh88 on 22/11/15.

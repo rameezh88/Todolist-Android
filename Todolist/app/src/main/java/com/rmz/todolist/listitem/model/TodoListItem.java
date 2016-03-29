@@ -1,4 +1,4 @@
-package com.rmz.todolist.models;
+package com.rmz.todolist.listitem.model;
 
 import java.util.Date;
 

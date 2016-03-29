@@ -1,4 +1,4 @@
-package com.rmz.todolist.activities;
+package com.rmz.todolist.allitems.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,27 +12,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rmz.todolist.R;
-import com.rmz.todolist.models.TodoList;
-import com.rmz.todolist.utils.TodoListDataService;
+import com.rmz.todolist.allitems.model.TodoList;
+import com.rmz.todolist.allitems.presenter.AllItemsPresenter;
+import com.rmz.todolist.todolist.view.TodoListActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by rameezh88 on 20/11/15.
  */
-public class AllItemsActivity extends AppCompatActivity {
+public class AllItemsActivity extends AppCompatActivity implements IAllItemsView {
 
     private TextView emptyMessageView;
     private ListView allItemsList;
-    private ArrayList<TodoList> allLists = new ArrayList<>();
-    private TodoListDataService manager;
+    private AllItemsPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_items);
+        presenter = new AllItemsPresenter(this, this);
         setTitle(getResources().getString(R.string.all_items));
-        manager = TodoListDataService.getInstance(this);
         initViews();
     }
 
@@ -42,16 +42,9 @@ public class AllItemsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        boolean noItemsAdded = allLists.size() == 0;
-        if (noItemsAdded) {
-            emptyMessageView.setVisibility(View.VISIBLE);
-            allItemsList.setVisibility(View.INVISIBLE);
-        } else {
-            allItemsList.setVisibility(View.VISIBLE);
-            emptyMessageView.setVisibility(View.INVISIBLE);
-        }
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
     }
 
     @Override
@@ -64,12 +57,25 @@ public class AllItemsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_new_list) {
-            openNewListActivity();
+            presenter.onNewListButtonPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openNewListActivity () {
+    @Override
+    public void showListEmpty() {
+        emptyMessageView.setVisibility(View.VISIBLE);
+        allItemsList.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showAllItems(ArrayList<TodoList> allLists) {
+        allItemsList.setVisibility(View.VISIBLE);
+        emptyMessageView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void openNewListActivity() {
         Intent newListIntent = new Intent(this, TodoListActivity.class);
         startActivity(newListIntent);
     }

@@ -1,4 +1,4 @@
-package com.rmz.todolist.db;
+package com.rmz.todolist.util.db;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.os.AsyncTask;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+import com.rmz.todolist.allitems.model.TodoList;
+import com.rmz.todolist.listitem.model.TodoListItem;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -15,7 +17,7 @@ import java.sql.SQLException;
 /**
  * Created by rameezh88 on 20/11/15.
  */
-public class DBUtility {
+public class DBUtility implements IDBUtility {
     public static String BUNDLED_DB_NAME = "todolist.sqlite";
     private static String TODO_LIST_TABLE = "todo_lists";
     private static String LIST_ITEMS_TABLE = "list_items";
@@ -34,11 +36,6 @@ public class DBUtility {
     private SQLiteDatabase myDataBase;
     private Context myContext = null;
     private DatabaseOpenListener databaseOpenListener;
-
-    public interface DatabaseOpenListener {
-        public void openingDatabaseFromAssets();
-        public void databaseIsOpen();
-    }
 
     public DatabaseOpenListener getDatabaseOpenListener() {
         return databaseOpenListener;
@@ -77,8 +74,7 @@ public class DBUtility {
         return false;
     }
 
-    public void openDataBase() throws SQLException{
-//    	Log.i("DB_COMPLETE_PATH", DB_COMPLETE_PATH);
+    private void openDataBase() throws SQLException{
         if(myDataBase != null) {
             myDataBase.close();
         }
@@ -117,12 +113,27 @@ public class DBUtility {
                 try {
                     getDatabaseOpenListener().databaseIsOpen();
                 } catch (Exception e) {
-//                    e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         };
 
         openDatabase.execute();
+    }
+
+
+    @Override
+    public void openDatabase() {
+        try {
+            openDataBase();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void closeDatabase() {
+        this.closeDataBase();
     }
 
     public synchronized void closeDataBase() {
@@ -142,7 +153,8 @@ public class DBUtility {
         return null;
     }
 
-    public Cursor getAllItemsForListId (int listId) {
+    @Override
+    public Cursor getTodoListForListId(String listId) {
         try {
             return myDataBase.rawQuery("SELECT * FROM "+LIST_ITEMS_TABLE+" WHERE "+KEY_TODO_LIST_ID+" = "+listId, null);
         } catch (Exception e) {
@@ -152,7 +164,33 @@ public class DBUtility {
         return null;
     }
 
-    public void updateToDoList () {
+    @Override
+    public void updateList(TodoList list) {
+
+    }
+
+    @Override
+    public void insertList(TodoList list) {
+
+    }
+
+    @Override
+    public void updateTodoListItem(TodoListItem todoListItem) {
+
+    }
+
+    @Override
+    public void insertTodoListItems(TodoListItem todoListItem) {
+
+    }
+
+    @Override
+    public void deleteTodoListItemWithId(String todoListItemId) {
+
+    }
+
+    @Override
+    public void deleteTodoListWithId(String todoListId) {
 
     }
 }
