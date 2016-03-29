@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="actionbar_title_text_size">19sp</dimen>
+    <dimen name="list_item_text_size">17sp</dimen>
+    <dimen name="list_item_small_text_size">13sp</dimen>
     <dimen name="default_message_text_size">15sp</dimen>
     <dimen name="default_message_padding">50dp</dimen>
+    <dimen name="all_items_item_height">60dp</dimen>
 </resources>

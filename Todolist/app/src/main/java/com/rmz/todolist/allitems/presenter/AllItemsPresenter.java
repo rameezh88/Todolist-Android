@@ -27,7 +27,7 @@ public class AllItemsPresenter extends BroadcastReceiver implements IAllItemsPre
 
     @Override
     public void onResume() {
-//        interactor.loadAllItems(this);
+        interactor.loadAllItems();
     }
 
     @Override

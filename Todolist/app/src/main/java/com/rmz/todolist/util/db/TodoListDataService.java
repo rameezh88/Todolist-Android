@@ -3,6 +3,7 @@ package com.rmz.todolist.util.db;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.rmz.todolist.R;
 import com.rmz.todolist.allitems.model.TodoList;
@@ -45,6 +46,7 @@ public class TodoListDataService implements DBUtility.DatabaseOpenListener, ITod
                 String listId = cursor.getString(cursor.getColumnIndex(DBUtility.KEY_ID));
                 String listName = cursor.getString(cursor.getColumnIndex(DBUtility.KEY_LIST_NAME));
                 String lastModified = cursor.getString(cursor.getColumnIndex(DBUtility.KEY_MODIFIED));
+                Log.d(getClass().getSimpleName(), "Last modified - "+lastModified);
                 Date lastModifiedDate = DateHandler.getDateFromString(lastModified);
                 TodoList list = new TodoList(listName, listId, lastModifiedDate);
                 allLists.add(list);

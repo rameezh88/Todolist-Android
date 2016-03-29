@@ -1,5 +1,6 @@
 package com.rmz.todolist.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Locale;
  */
 public class DateHandler {
     private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static String DATE_FORMAT_LIST_ITEM = "HH:mm MMM dd";
     public static String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 DATE_FORMAT, Locale.getDefault());
@@ -25,5 +27,11 @@ public class DateHandler {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public static String getFormattedDateForList(Date date) {
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT_LIST_ITEM);
+        String listItemDate = df.format(date);
+        return listItemDate;
     }
 }

@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rmz.todolist.R;
+import com.rmz.todolist.allitems.adapter.AllItemsAdapter;
 import com.rmz.todolist.allitems.model.TodoList;
 import com.rmz.todolist.allitems.presenter.AllItemsPresenter;
 import com.rmz.todolist.todolist.view.TodoListActivity;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 public class AllItemsActivity extends AppCompatActivity implements IAllItemsView {
 
     private TextView emptyMessageView;
-    private ListView allItemsList;
+    private RecyclerView allItemsList;
     private AllItemsPresenter presenter;
 
     @Override
@@ -39,9 +42,19 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
         initViews();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            unregisterReceiver(presenter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initViews () {
         emptyMessageView = (TextView) findViewById(R.id.all_items_empty_message);
-        allItemsList = (ListView) findViewById(R.id.all_items_list);
+        allItemsList = (RecyclerView) findViewById(R.id.all_items_list);
     }
 
     @Override
@@ -75,6 +88,14 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
     public void showAllItems(ArrayList<TodoList> allLists) {
         allItemsList.setVisibility(View.VISIBLE);
         emptyMessageView.setVisibility(View.INVISIBLE);
+        showAllItemsInList(allLists);
+    }
+
+    @UiThread
+    private void showAllItemsInList(ArrayList<TodoList> allLists) {
+        AllItemsAdapter adapter = new AllItemsAdapter(allLists);
+        allItemsList.setLayoutManager(new LinearLayoutManager(this));
+        allItemsList.setAdapter(adapter);
     }
 
     @Override
