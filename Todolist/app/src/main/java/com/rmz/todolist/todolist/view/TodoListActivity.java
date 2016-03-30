@@ -59,7 +59,7 @@ public class TodoListActivity extends AppCompatActivity implements ITodoListView
     }
 
     private void openListItemActivity(TodoListItem todoListItem) {
-        // TODO: 30/03/16 : Create activity and set it up to create a new list item. 
+        // TODO: 30/03/16 : Create activity and set it up to create a new list item.
     }
 
     @Override

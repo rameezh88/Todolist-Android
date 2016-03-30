@@ -34,7 +34,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.AllIte
         TodoList todoList = allLists.get(position);
         try {
             holder.listName.setText(todoList.getListName());
-            holder.lastModified.setText(DateHandler.getFormattedDateForList(todoList.getLastModified()));
+            holder.lastModified.setText(DateHandler.getFormattedDateForList(DateHandler.getDateFromString(todoList.getLastModified())));
         } catch (Exception e) {
             e.printStackTrace();
         }

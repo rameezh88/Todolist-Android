@@ -1,6 +1,5 @@
 package com.rmz.todolist.allitems.view;
 
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +18,6 @@ import com.rmz.todolist.allitems.adapter.AllItemsAdapter;
 import com.rmz.todolist.allitems.model.TodoList;
 import com.rmz.todolist.allitems.presenter.AllItemsPresenter;
 import com.rmz.todolist.allitems.presenter.IAllItemsPresenter;
-import com.rmz.todolist.todolist.view.TodoListActivity;
 
 import java.util.ArrayList;
 
@@ -97,12 +95,6 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
         AllItemsAdapter adapter = new AllItemsAdapter(allLists);
         allItemsList.setLayoutManager(new LinearLayoutManager(this));
         allItemsList.setAdapter(adapter);
-    }
-
-    @Override
-    public void openNewListActivity() {
-        Intent newListIntent = new Intent(this, TodoListActivity.class);
-        startActivity(newListIntent);
     }
 
     @Override

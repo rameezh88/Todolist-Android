@@ -9,6 +9,8 @@ import com.rmz.todolist.R;
 import com.rmz.todolist.allitems.interactor.AllItemsInteractor;
 import com.rmz.todolist.allitems.interactor.IAllItemsInteractor;
 import com.rmz.todolist.allitems.model.TodoList;
+import com.rmz.todolist.allitems.router.AllItemsRouter;
+import com.rmz.todolist.allitems.router.IAllItemsRouter;
 import com.rmz.todolist.allitems.view.IAllItemsView;
 
 import java.util.ArrayList;
@@ -17,11 +19,15 @@ import java.util.ArrayList;
  * Created by rameez on 29/03/16.
  */
 public class AllItemsPresenter extends BroadcastReceiver implements IAllItemsPresenter, IAllItemsInteractor.AllItemsListener {
-    private AllItemsInteractor interactor;
+    private IAllItemsInteractor interactor;
     private IAllItemsView allItemsView;
+    private IAllItemsRouter router;
+    private Context context;
 
     public AllItemsPresenter(Context context, IAllItemsView allItemsView) {
+        this.context = context;
         interactor = new AllItemsInteractor(context, this);
+        router = new AllItemsRouter();
         this.allItemsView = allItemsView;
     }
 
@@ -32,7 +38,12 @@ public class AllItemsPresenter extends BroadcastReceiver implements IAllItemsPre
 
     @Override
     public void onNewListButtonPressed() {
-        allItemsView.openNewListActivity();
+        router.openNewListActivity(context);
+    }
+
+    @Override
+    public void onTodoListSelected(TodoList list) {
+        router.openActivityForSelectedList(context, list);
     }
 
     @Override

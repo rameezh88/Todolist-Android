@@ -47,8 +47,7 @@ public class TodoListDataService implements DBUtility.DatabaseOpenListener, ITod
                 String listName = cursor.getString(cursor.getColumnIndex(DBUtility.KEY_LIST_NAME));
                 String lastModified = cursor.getString(cursor.getColumnIndex(DBUtility.KEY_MODIFIED));
                 Log.d(getClass().getSimpleName(), "Last modified - "+lastModified);
-                Date lastModifiedDate = DateHandler.getDateFromString(lastModified);
-                TodoList list = new TodoList(listName, listId, lastModifiedDate);
+                TodoList list = new TodoList(listName, listId, lastModified);
                 allLists.add(list);
             }
             cursor.close();
