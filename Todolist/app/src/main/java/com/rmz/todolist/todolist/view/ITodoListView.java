@@ -12,4 +12,5 @@ public interface ITodoListView {
     void showListEmpty();
     void openNewListItemActivity();
     void openListItemActivityWithItem(TodoListItem listItem);
+    void setListTitle(String title);
 }

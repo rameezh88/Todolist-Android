@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rmz.todolist.R;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by rameezh88 on 20/11/15.
  */
-public class AllItemsActivity extends AppCompatActivity implements IAllItemsView {
+public class AllItemsActivity extends AppCompatActivity implements IAllItemsView, AllItemsAdapter.AllItemsViewHolder.TodoListItemClickListener {
 
     private TextView emptyMessageView;
     private RecyclerView allItemsList;
@@ -92,7 +93,7 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
 
     @UiThread
     private void showAllItemsInList(ArrayList<TodoList> allLists) {
-        AllItemsAdapter adapter = new AllItemsAdapter(allLists);
+        AllItemsAdapter adapter = new AllItemsAdapter(allLists, this);
         allItemsList.setLayoutManager(new LinearLayoutManager(this));
         allItemsList.setAdapter(adapter);
     }
@@ -105,5 +106,15 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
     @Override
     public void hideLoader() {
         // TODO: 30/03/16: Add loader
+    }
+
+    @Override
+    public void onViewClicked(RelativeLayout view) {
+        try {
+            TodoList selectedList = (TodoList)view.getTag();
+            presenter.onTodoListSelected(selectedList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rmz.todolist.R;
+import com.rmz.todolist.allitems.model.TodoList;
+import com.rmz.todolist.allitems.router.IAllItemsRouter;
 import com.rmz.todolist.listitem.model.TodoListItem;
 import com.rmz.todolist.todolist.presenter.ITodoListPresenter;
 import com.rmz.todolist.todolist.presenter.TodoListPresenter;
@@ -33,8 +35,15 @@ public class TodoListActivity extends AppCompatActivity implements ITodoListView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_list);
         setTitle(getResources().getString(R.string.new_list));
-        presenter = new TodoListPresenter(this, this);
+        TodoList todoList = getIntent().getParcelableExtra(IAllItemsRouter.TODO_LIST);
+        presenter = new TodoListPresenter(this, this, todoList);
         initViews();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onStart();
     }
 
     private void initViews() {
@@ -82,5 +91,15 @@ public class TodoListActivity extends AppCompatActivity implements ITodoListView
     @Override
     public void openListItemActivityWithItem(TodoListItem listItem) {
         openListItemActivity(listItem);
+    }
+
+    @Override
+    public void setListTitle(String title) {
+        try {
+            listTitle.setText(title);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -8,4 +8,5 @@ import com.rmz.todolist.listitem.model.TodoListItem;
 public interface ITodoListPresenter {
     void addNewItemSelected();
     void itemSelected(TodoListItem item);
+    void onStart();
 }
