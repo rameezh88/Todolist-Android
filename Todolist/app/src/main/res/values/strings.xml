@@ -6,6 +6,9 @@
     <string name="new_list">New list</string>
     <string name="new_item">New item</string>
     <string name="all_items_default_message">You have no lists yet. Please tap the + button above to add a new list.</string>
+    <string name="no_list_items_yet">No items yet. Please tap the + button above to add a new item.</string>
+    <string name="new_list_title_hint">Pick a title for your list...</string>
+    <string name="list_item_hint">New list item...</string>
 
     <!--Events-->
     <string name="database_being_opened">database.being.opened</string>

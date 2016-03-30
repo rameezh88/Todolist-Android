@@ -18,6 +18,7 @@ import com.rmz.todolist.R;
 import com.rmz.todolist.allitems.adapter.AllItemsAdapter;
 import com.rmz.todolist.allitems.model.TodoList;
 import com.rmz.todolist.allitems.presenter.AllItemsPresenter;
+import com.rmz.todolist.allitems.presenter.IAllItemsPresenter;
 import com.rmz.todolist.todolist.view.TodoListActivity;
 
 import java.util.ArrayList;
@@ -29,15 +30,15 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
 
     private TextView emptyMessageView;
     private RecyclerView allItemsList;
-    private AllItemsPresenter presenter;
+    private IAllItemsPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_items);
         presenter = new AllItemsPresenter(this, this);
-        registerReceiver(presenter, new IntentFilter(getString(R.string.database_being_opened)));
-        registerReceiver(presenter, new IntentFilter(getString(R.string.database_opened)));
+        registerReceiver((AllItemsPresenter)presenter, new IntentFilter(getString(R.string.database_being_opened)));
+        registerReceiver((AllItemsPresenter)presenter, new IntentFilter(getString(R.string.database_opened)));
         setTitle(getResources().getString(R.string.all_items));
         initViews();
     }
@@ -46,7 +47,7 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
     protected void onDestroy() {
         super.onDestroy();
         try {
-            unregisterReceiver(presenter);
+            unregisterReceiver((AllItemsPresenter)presenter);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,11 +107,11 @@ public class AllItemsActivity extends AppCompatActivity implements IAllItemsView
 
     @Override
     public void showLoader() {
-
+        // TODO: 30/03/16: Add loader
     }
 
     @Override
     public void hideLoader() {
-
+        // TODO: 30/03/16: Add loader
     }
 }
